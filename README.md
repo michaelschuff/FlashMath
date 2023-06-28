@@ -7,4 +7,5 @@ A notecard app supporting advanced formatting for beautiful looking flash cards.
 Michael Schuff,
 Billy Merchan,
 Dante Luis,
+Yuyang Zheng,
 Jun Song
