@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-export const Login = (props) => {
+export const LoginPage = (props) => {
     const { email, setEmail } = useState('');
     const { pass, setPass } = useState('');
 
