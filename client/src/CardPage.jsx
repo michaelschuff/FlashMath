@@ -1,15 +1,6 @@
 import React from "react";
 
 export const CardPage = () => {
-    // const { email, setEmail } = useState('');
-    // const { pass, setPass } = useState('');
-    // const { name, setName } = useState('');
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     console.log(email);
-    // }
-
     return (
         <div className="top-bar">
             <div class="site-logo">
