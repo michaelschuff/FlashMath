@@ -7,8 +7,6 @@ export const CardPage = () => {
                 <img src="favicon.ico" class="logo-img" />
                 <text>FlashMath</text>
             </div>
-            
-            
             <div class="wrap">
                 <div class="search-bar">
                     <input type="text" class="searchTerm" placeholder="Search set"></input>
@@ -17,6 +15,7 @@ export const CardPage = () => {
                     </button>
                 </div>
             </div>
+            <img src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-5.png" class="hamburger" />
         </div>
     );
 }

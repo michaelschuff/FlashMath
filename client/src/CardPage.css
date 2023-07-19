@@ -1,4 +1,4 @@
-.App {
+#root {
     text-align: center;
     min-height: 100vh;
     background-color:  #F5F5DC;
@@ -35,18 +35,20 @@ body{
   font-family: 'Open Sans', sans-serif;
 }
 
+/* composed of input text and button */
 .search-bar {
   width: 100%;
   position: relative;
   display: flex;
 }
 
+/* input text box*/
 .searchTerm {
   width: 100%;
   border: 3px solid #000000;
   border-right: none;
   padding: 5px;
-  height: 20px;
+  height: 3%;
   border-radius: 5px 0 0 5px;
   outline: none;
   color: grey;
@@ -56,22 +58,24 @@ body{
   color: black;
 }
 
+/* Blue button to the right */
 .searchButton {
-  width: 40px;
-  height: 36px;
-  border: 1px solid #6379ea;
+  display: flex;
+  justify-items: center;
+  width: 3em;
+  height: 3%;
   background: #6379ea;
-  text-align: center;
-  color: #fff;
+  padding: 5px;
+  margin-top: 7px;
   border-radius: 0 5px 5px 0;
   cursor: pointer;
-  font-size: 20px;
 }
 
 .search-img {
   width: 24px;
   height: 24px;
 }
+
 /*Resize the wrap to see the search bar change!*/
 .wrap{
   width: 30%;
@@ -79,3 +83,15 @@ body{
   padding-top: 7%;
   transform: translate(-50%, -50%);
 }
+
+
+/* hamburger menu */
+/* Style the hamburger menu */
+.hamburger {
+    display: block;
+    position: absolute;
+    right: 5em;
+    top: 2em;
+    width: 5em;
+    hight: 5em;
+  }
