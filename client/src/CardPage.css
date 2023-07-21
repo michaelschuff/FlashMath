@@ -4,6 +4,12 @@
     background-color:  #F5F5DC;
 }
 
+.cardpage{
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
 .site-logo{
     display:flex;
     flex-direction: column;
@@ -95,3 +101,27 @@ body{
     width: 5em;
     hight: 5em;
   }
+
+/* Card Style */
+
+.cardview {
+    display: flex;
+    flex-direction: column;
+    /* max-width: 50%; */
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+}
+/* Style the counter cards */
+.card {
+    background-color: white;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    height: 20rem;
+    width: 30rem;
+    margin-top: 5em;
+    
+    display:flex;
+    justify-content: center;
+    align-items: center;
+}

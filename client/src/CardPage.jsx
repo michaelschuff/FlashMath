@@ -2,7 +2,8 @@ import React from "react";
 
 export const CardPage = () => {
     return (
-        <div className="top-bar">
+        <div class="cardpage">
+            <div class="top-bar">
             <div class="site-logo">
                 <img src="favicon.ico" class="logo-img" />
                 <text>FlashMath</text>
@@ -15,7 +16,17 @@ export const CardPage = () => {
                     </button>
                 </div>
             </div>
-            <img src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-5.png" class="hamburger" />
+                <img src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-5.png" class="hamburger" />
+            </div>
+            <div class="cardview">
+                <div class="card">
+                    Vocabulary
+                </div>
+                <div class="arrows-container">
+                    left arrow
+                </div>
+            </div>
         </div>
+        
     );
 }
