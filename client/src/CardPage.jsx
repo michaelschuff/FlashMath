@@ -16,15 +16,22 @@ export const CardPage = () => {
                     </button>
                 </div>
             </div>
-                <img src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-5.png" class="hamburger" />
+                <img src="https://icons.veryicon.com/png/o/miscellaneous/linear-icon-45/hamburger-menu-5.png" class="menu-icon" />
             </div>
             <div class="cardview">
                 <div class="card">
                     Vocabulary
                 </div>
                 <div class="arrows-container">
-                    left arrow
+                    <button><i class="arrow left"></i></button>
+                    <button class="shuffle-button">Shuffle</button>
+                    <button><i class="arrow right"></i></button>  
                 </div>
+            </div>
+            <div class="bottom-bar">
+                <button class="share-button"> 
+                    <img src="https://w7.pngwing.com/pngs/176/664/png-transparent-share-icon-computer-icons-button-button-angle-text-monochrome.png" class="share-icon"></img>
+                </button>
             </div>
         </div>
         
