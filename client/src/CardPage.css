@@ -110,11 +110,15 @@ padding-top: 5%;
   height: 5em;
 }
 
+.card-title {
+  margin: 3vh;
+  font-weight: bold;
+}
+
 /* Card Style */
 .cardview {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   margin-top: 16px;
   flex: 1;
