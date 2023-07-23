@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import logo from './logo.svg';
-import Card from './Card.js'
+import Card from './Card.js';
 import Login from './Login.js'
 
 function App () {
