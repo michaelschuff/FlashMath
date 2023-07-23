@@ -1,12 +1,13 @@
-import React, { useState } from "react";
-import logo from './logo.svg';
-import { CardPage } from './CardPage.jsx';
-import './CardPage.css';
+import React from 'react'
+// import { useState } from 'react'
+// import logo from './logo.svg'
+import { CardPage } from './CardPage.jsx'
+import './CardPage.css'
 
-function Card() {
+function Card () {
   return (
-        <CardPage> </CardPage>
-  );
+    <CardPage> </CardPage>
+  )
 }
 
-export default Card;
+export default Card

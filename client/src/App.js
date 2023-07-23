@@ -1,15 +1,15 @@
-import React, { useState } from "react";
+import React from 'react'
 // import logo from './logo.svg';
-import Card from './Card.js';
-import Login from './Login.js';
+// import CardPage from './Card.js'
+import LoginPage from './LoginPage/LoginPage.js'
 
-function App() {
+function App () {
   return (
-    // comment or uncomment the lines below
+  // comment or uncomment the lines below
 
-    <Card> </Card>
-    // <Login> </Login>
-  );
+    // <Card> </Card>
+    <LoginPage> </LoginPage>
+  )
 }
 
-export default App;
+export default App
