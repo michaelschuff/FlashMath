@@ -1,15 +1,20 @@
-import React from 'react'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
 // import logo from './logo.svg';
 // import CardPage from './Card.js'
-import LoginPage from './LoginPage/LoginPage.js'
+import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
-function App () {
+function App() {
   return (
-  // comment or uncomment the lines below
+    // comment or uncomment the lines below
 
     // <Card> </Card>
-    <LoginPage> </LoginPage>
-  )
+    <Routes>
+      <Route path="/" element={<LoginForm />} />
+      <Route path="/register" element={<RegisterForm />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
