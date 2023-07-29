@@ -3,7 +3,7 @@ import { ShareButton } from './ShareButton.jsx'
 import { Logo } from './Logo.jsx'
 import { SearchBar } from './SearchBar.jsx'
 import { Menu } from './Menu.jsx'
-import { Card } from './Card.jsx'
+import { Cards } from './Cards.jsx'
 import { CardNavigation } from './CardNavigation.jsx'
 import './EditorPage.css'
 
@@ -16,7 +16,7 @@ function EditorPage () {
         <Menu />
       </div>
       <div class='cardview'>
-        <Card />
+        <Cards />
         <CardNavigation />
       </div>
       <div class='bottom-bar'>
