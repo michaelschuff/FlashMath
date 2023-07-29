@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+// import { Link } from 'react-router-dom'
 
 export const LoginForm = (props) => {
   const { email, setEmail } = useState('')
@@ -20,6 +21,9 @@ export const LoginForm = (props) => {
         <button className='login-button'>Login</button>
       </form>
       <button className='link-btn' onClick={() => props.onFormSwitch('register')}>Don't have an account?</button>
+      {/* <Link to='/EditorPage' className='nav-links'>
+          Demo
+      </Link> */}
     </div>
   )
 }
