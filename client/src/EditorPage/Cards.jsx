@@ -1,19 +1,19 @@
 import React from 'react'
-import { Card } from './Card.jsx'
+import EditorPage from './EditorPage'
 
-export const Cards = () => {
+export const Cards = (props) => {
   return (
     <div class = 'cards'>
       <text class='card-title'>Title</text>
       <div class='card-container'>
         <div class='card left'>
-            Vocabulary
+            {props.leftData}
         </div>
         <div class='card mid'>
-            Vocabulary
+            {props.midData}
         </div>
         <div class='card right'>
-            Vocabulary
+            {props.rightData}
         </div>
       </div>
     </div>
