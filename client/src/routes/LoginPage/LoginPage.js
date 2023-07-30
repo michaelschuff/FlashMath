@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import './LoginPage.css'
 import { LoginForm } from './LoginForm.jsx'
 import { RegisterForm } from './RegisterForm.jsx'
+import { Logo } from '../SiteItems/Logo.jsx'
 
 function LoginPage () {
   const [currentForm, setCurrentForm] = useState('login')
@@ -11,10 +12,15 @@ function LoginPage () {
     setCurrentForm(formName)
   }
   return (
-    <div className='Login'>
-      {
-        currentForm === 'login' ? <LoginForm onFormSwitch={toggleForm} /> : <RegisterForm onFormSwitch={toggleForm} />
-      }
+    <div>
+      <div class='top-bar'>
+        <Logo />
+      </div>
+      <div className='Login'>
+        {
+          currentForm === 'login' ? <LoginForm onFormSwitch={toggleForm} /> : <RegisterForm onFormSwitch={toggleForm} />
+        }
+      </div>
     </div>
   )
 }

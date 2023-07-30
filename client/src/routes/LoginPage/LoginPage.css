@@ -38,7 +38,7 @@ input {
 button {
   border: none;
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   border-radius: 10px;
   cursor: pointer;
   color: #7439db;
@@ -46,7 +46,7 @@ button {
 .login-button {
   border: none;
   background-color: white;
-  padding: 20px;
+  padding: 10px;
   margin: 0.5rem 0;
   border-radius: 10px;
   cursor: pointer;

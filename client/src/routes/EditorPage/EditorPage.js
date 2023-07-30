@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
 import { ShareButton } from './ShareButton.jsx'
-import { Logo } from './Logo.jsx'
+import { Logo } from '../SiteItems/Logo.jsx'
 import { SearchBar } from './SearchBar.jsx'
-import { Menu } from './Menu.jsx'
-import { Cardss } from './Cardss.jsx'
+import { Menu } from '../SiteItems/Menu.jsx'
+import { Cardss } from './Cards.jsx'
 import { CardNavigation } from './CardNavigation.jsx'
 import './EditorPage.css'
 
