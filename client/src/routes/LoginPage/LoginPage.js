@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 // import logo from './logo.svg';
-import './LoginPage.css'
+import '../../App.css'
 import { LoginForm } from './LoginForm.jsx'
 import { RegisterForm } from './RegisterForm.jsx'
 
