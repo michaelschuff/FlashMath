@@ -1,11 +1,11 @@
 import React from 'react'
-import EditableText from './EditCard';
 
-export const Card = () => {
+export const Card = ({ initialText, title, type }) => {
   return (
-    <div>
-      <div class='card'>
-        <EditableText initialText="Vocabulary"/>
+    <div class={type}>
+      <text>{title}</text>
+      <div>
+        {initialText}
       </div>
     </div>
   )
