@@ -1,4 +1,8 @@
 /client/node_modules/
 /server/node_modules/
+<<<<<<< HEAD
 /server/.env
 /node_modules/
+=======
+# /server/.env
+>>>>>>> 0ad13e4 (more conflicts....)
