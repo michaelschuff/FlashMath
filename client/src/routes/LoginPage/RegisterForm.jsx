@@ -17,7 +17,15 @@ export const RegisterForm = (props) => {
         email,
         password
       })
-    }).then((res) => res.json());
+    }).then((res) => res.json())
+
+    if(result.status === 'ok'){
+
+    } else{
+      alert(result.error)
+    }
+
+    ;
   }
 
   return (
