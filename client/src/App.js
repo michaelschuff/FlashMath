@@ -15,13 +15,10 @@ function App () {
   // comment or uncomment the lines below
     <Router>
       <Routes>
-        <Route path='/' id='Login' element={<LoginPage />} />
-        <Route path='/cards' id='MainCardDisplay' element={<EditorPage />} />
+        <Route path='/' id='LoginPage' element={<LoginPage />} />
+        <Route path='/cards' id='EditorPage' element={<EditorPage />} />
       </Routes>
     </Router>
-
-    // <EditorPage> </EditorPage>
-    // <LoginPage> </LoginPage>
   )
 }
 

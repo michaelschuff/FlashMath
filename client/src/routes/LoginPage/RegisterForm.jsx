@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 export const RegisterForm = (props) => {
-  const { email, setEmail } = useState('')
-  const { pass, setPass } = useState('')
-  const { name, setName } = useState('')
+  const { email } = useState('')
+  const { pass } = useState('')
+  const { name } = useState('')
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -15,12 +16,18 @@ export const RegisterForm = (props) => {
       <h2>Register</h2>
       <form className='register-form' onSubmit={handleSubmit}>
         <label htmlFor='name'>name</label>
-        <input value={name} onChange={(e) => setName(e.target.value)} type='name' placeholder='name' id='name' name='name' />
+        <input value={name} type='name' placeholder='name' id='name' name='name' />
         <label htmlFor='email'>email</label>
-        <input value={email} onChange={(e) => setEmail(e.target.value)} type='email' placeholder='youremail@gmail.com' id='email' name='email' />
+        <input value={email} type='email' placeholder='youremail@gmail.com' id='email' name='email' />
         <label htmlFor='password'>password</label>
-        <input value={pass} onChange={(e) => setPass(e.target.value)} type='password' placeholder='********' id='password' name='password' />
-        <button>Register</button>
+        <input value={pass} type='password' placeholder='********' id='password' name='password' />
+        {/* <button>Register</button> */}
+        <Link className='login-button' to='/cards'>
+          Register
+        </Link>
+        <Link className='login-button' to='/cards'>
+          Continue as Guest
+        </Link>
       </form>
       <button className='link-btn' onClick={() => props.onFormSwitch('login')}>Already have an account?</button>
     </div>
