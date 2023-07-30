@@ -1,5 +1,6 @@
 import React from 'react'
 import EditorPage from './EditorPage'
+import { Card } from './Card.jsx'
 
 export const Cards = (props) => {
   return (
