@@ -12,13 +12,8 @@ function App () {
   // comment or uncomment the lines below
     <Router>
       <Routes>
-<<<<<<< HEAD
-        <Route path='/' id='Login' element={<Login/>} />
-        <Route path='/cards' id='MainCardDisplay' element={<MainCardDisplay/>} />
-=======
         <Route path='/' id='LoginPage' element={<LoginPage />} />
         <Route path='/cards' id='EditorPage' element={<EditorPage />} />
->>>>>>> fc8d8cb (merged correctly now)
       </Routes>
     </Router>
   )

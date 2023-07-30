@@ -1,10 +1,7 @@
 import React from 'react'
-<<<<<<< HEAD
+
 import EditorPage from './EditorPage'
 import { Card } from './Card.jsx'
-=======
-// import EditorPage from './EditorPage'
->>>>>>> fc8d8cb (merged correctly now)
 
 export const Cards = (props) => {
   return (

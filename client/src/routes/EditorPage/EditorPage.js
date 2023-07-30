@@ -3,7 +3,7 @@ import { ShareButton } from './ShareButton.jsx'
 import { Logo } from '../SiteItems/Logo.jsx'
 import { SearchBar } from './SearchBar.jsx'
 import { Menu } from '../SiteItems/Menu.jsx'
-import { Cardss } from './Cards.jsx'
+import { Cards } from './Cards.jsx'
 import { CardNavigation } from './CardNavigation.jsx'
 import './EditorPage.css'
 
