@@ -8,28 +8,27 @@ import { CardNavigation } from './CardNavigation.jsx'
 import './EditorPage.css'
 
 function EditorPage () {
-  
-  const [leftData, setLeftData] = useState("left card");
-  const [rightData, setRightData] = useState("right card");
-  const [midData, setMidData] = useState("mid card");
+  const [leftData, setLeftData] = useState('left card')
+  const [rightData, setRightData] = useState('right card')
+  const [midData, setMidData] = useState('mid card')
 
   // add parameter, new_data later and replace the string
-  const shiftCardLeft = () => {
+  const handleShiftCardLeft = () => {
     setLeftData(midData)
     setMidData(rightData)
-    setRightData("new_data")
+    setRightData('new_data')
   }
 
-  const shiftCardRight = () => {
+  const handleShiftCardRight = () => {
     setRightData(midData)
     setMidData(leftData)
-    setLeftData("new data")
+    setLeftData('new data')
   }
 
-  const shuffleSet = () => {
-    setRightData("right card")
-    setMidData("mid card")
-    setLeftData("left card")
+  const handleShuffleSet = () => {
+    setRightData('right card')
+    setMidData('mid card')
+    setLeftData('left card')
   }
 
   return (
@@ -40,8 +39,8 @@ function EditorPage () {
         <Menu />
       </div>
       <div class='cardview'>
-        <Cards leftData={leftData} midData={midData} rightData={rightData}/>
-        <CardNavigation shiftCardLeft={shiftCardLeft} shiftCardRight={shiftCardRight} shuffleSet={shuffleSet}/>
+        <Cards leftData={leftData} midData={midData} rightData={rightData} />
+        <CardNavigation shiftCardLeft={handleShiftCardLeft} shiftCardRight={handleShiftCardRight} shuffleSet={handleShuffleSet}/>
       </div>
       <div class='bottom-bar'>
         <ShareButton />
