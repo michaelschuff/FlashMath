@@ -5,6 +5,8 @@ import { SearchBar } from './SearchBar.jsx'
 import { Menu } from '../SiteItems/Menu.jsx'
 import { Cards } from './Cards.jsx'
 import { CardNavigation } from './CardNavigation.jsx'
+
+
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 import '../SiteItems/Logo.css'

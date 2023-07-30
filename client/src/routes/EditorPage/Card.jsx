@@ -1,5 +1,6 @@
 import React from 'react'
 
+
 export const Card = ({ initialText, title, type }) => {
   return (
     <div class={type}>
