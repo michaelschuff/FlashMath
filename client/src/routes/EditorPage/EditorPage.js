@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { ShareButton } from './ShareButton.jsx'
 import { Logo } from '../SiteItems/Logo.jsx'
 import { SearchBar } from './SearchBar.jsx'
@@ -64,6 +64,15 @@ function EditorPage ({ cardtitles, cardtexts }) {
     setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
     updateCardData()
   }
+
+  useEffect(() => {
+    setLText(cardtexts[index - 1] || '');
+    setLTitle(cardtitles[index - 1] || '');
+    setMText(cardtexts[index]);
+    setMTitle(cardtitles[index]);
+    setRText(cardtexts[index + 1] || '');
+    setRTitle(cardtitles[index + 1] || '');
+  }, [index, cardtitles, cardtexts]);
 
   return (
     <div class='editor-page'>
