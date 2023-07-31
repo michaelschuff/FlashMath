@@ -6,13 +6,12 @@ import { Menu } from '../SiteItems/Menu.jsx'
 import { Cards } from './Cards.jsx'
 import { CardNavigation } from './CardNavigation.jsx'
 
-
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 import '../SiteItems/Logo.css'
 import '../SiteItems/Menu.css'
 
-function EditorPage ({ cardtitles, cardtexts }) {
+function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const [lTitle, setLTitle] = useState('')
   const [mTitle, setMTitle] = useState('')
   const [rTitle, setRTitle] = useState('')
@@ -31,7 +30,11 @@ function EditorPage ({ cardtitles, cardtexts }) {
       setLText('')
       setLTitle('')
     }
-    setMText(cardtexts[index])
+    if (currentCardSide === 'front') {
+      setMText(cardtexts[index])
+    } else {
+      setMText(backcardtexts[index])
+    }
     setMTitle(cardtitles[index])
     if (index < cardtexts.length - 1) {
       setRText(cardtexts[index + 1])
@@ -41,7 +44,14 @@ function EditorPage ({ cardtitles, cardtexts }) {
       setRTitle('')
     }
   }
-
+  useEffect(() => {
+    setLText(cardtexts[index - 1] || '')
+    setLTitle(cardtitles[index - 1] || '')
+    setMText(cardtexts[index])
+    setMTitle(cardtitles[index])
+    setRText(cardtexts[index + 1] || '')
+    setRTitle(cardtitles[index + 1] || '')
+  }, [index, cardtitles, cardtexts])
   const shiftCardLeft = () => {
     console.log('index: ' + index)
     console.log('ShiftCardLeft')
@@ -60,19 +70,23 @@ function EditorPage ({ cardtitles, cardtexts }) {
     updateCardData()
   }
 
+  const [currentCardSide, setCurrentForm] = useState('front')
   const shuffleSet = () => {
-    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
-    updateCardData()
+    // setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
+    // updateCardData()
+    if (currentCardSide === 'front') {
+      setCurrentForm('back')
+      setMText(backcardtexts[index])
+    } else {
+      setCurrentForm('front')
+      setMText(cardtexts[index])
+    }
   }
 
-  useEffect(() => {
-    setLText(cardtexts[index - 1] || '');
-    setLTitle(cardtitles[index - 1] || '');
-    setMText(cardtexts[index]);
-    setMTitle(cardtitles[index]);
-    setRText(cardtexts[index + 1] || '');
-    setRTitle(cardtitles[index + 1] || '');
-  }, [index, cardtitles, cardtexts]);
+
+  const toggleCard = (cardName) => {
+    setCurrentForm(cardName)
+  }
 
   return (
     <div class='editor-page'>
@@ -82,7 +96,7 @@ function EditorPage ({ cardtitles, cardtexts }) {
         <Menu />
       </div>
       <div class='cardview'>
-        <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} />
+        {currentCardSide === 'front' ? <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} onCardSwitch={toggleCard} /> : <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} onCardSwitch={toggleCard} />}
         <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
       <div class='bottom-bar'>
