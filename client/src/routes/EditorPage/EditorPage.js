@@ -44,7 +44,14 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
       setRTitle('')
     }
   }
-
+  useEffect(() => {
+    setLText(cardtexts[index - 1] || '')
+    setLTitle(cardtitles[index - 1] || '')
+    setMText(cardtexts[index])
+    setMTitle(cardtitles[index])
+    setRText(cardtexts[index + 1] || '')
+    setRTitle(cardtitles[index + 1] || '')
+  }, [index, cardtitles, cardtexts])
   const shiftCardLeft = () => {
     console.log('index: ' + index)
     console.log('ShiftCardLeft')
