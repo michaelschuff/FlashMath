@@ -1,6 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useState, useRef } from 'react'
 
 const EditableCard = ({ initialText, title, type }) => {
+
   const editableRef = useRef(null)
 
   const handleClick = () => {
