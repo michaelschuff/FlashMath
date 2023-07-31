@@ -3,6 +3,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const User = require('./models/user')
+const Card = require('./models/card')
 const bcrypt = require('bcryptjs')
 const cors = require('cors');
 const jwt = require('jsonwebtoken')
@@ -20,19 +21,19 @@ app.use(cors())
 app.use('/', express.static(path.join(__dirname, 'static')))
 app.use(bodyParser.json())
 
-app.post('/api/login', async(req, res) => {
+app.post('/api/login', async (req, res) => {
   console.log(req.body);
 
-  const {username, password} = req.body;
+  const { username, password } = req.body;
 
   const user = await User.findOne({ username }).lean();
 
 
-  if(!user){
-    return res.json({status: 'error', error: 'Invalid username/password'})
+  if (!user) {
+    return res.json({ status: 'error', error: 'Invalid username/password' })
   }
 
-  if(await bcrypt.compare(password, user.password)){
+  if (await bcrypt.compare(password, user.password)) {
 
     // Note, tokens are all publically available
     const token = jwt.sign({
@@ -43,28 +44,28 @@ app.post('/api/login', async(req, res) => {
 
     )
 
-    return res.json({status: 'ok', data: ''})
+    return res.json({ status: 'ok', data: '' })
   }
 
-  res.json({status: 'error', error: 'Invalid username/password'})
+  res.json({ status: 'error', error: 'Invalid username/password' })
 })
 
 
-app.post('/api/register', async(req, res) => {
+app.post('/api/register', async (req, res) => {
   console.log(req.body);
 
-  const {username, password: plaintextPassword, email} = req.body;
+  const { username, password: plaintextPassword, email } = req.body;
 
-  if(!username || typeof username !== 'string'){
-    return res.json({status: 'error', error: 'Invalid Username'})
+  if (!username || typeof username !== 'string') {
+    return res.json({ status: 'error', error: 'Invalid Username' })
   }
 
-  if(!plaintextPassword || typeof plaintextPassword !== 'string'){
-    return res.json({status: 'error', error: 'Invalid Password'})
+  if (!plaintextPassword || typeof plaintextPassword !== 'string') {
+    return res.json({ status: 'error', error: 'Invalid Password' })
   }
 
-  if(plaintextPassword.length < 5){
-    return res.json({status: 'error', error: 'Invalid Password (Must be length greater than 5)'})
+  if (plaintextPassword.length < 5) {
+    return res.json({ status: 'error', error: 'Invalid Password (Must be length greater than 5)' })
   }
 
   password = await bcrypt.hash(plaintextPassword, 3);
@@ -76,16 +77,41 @@ app.post('/api/register', async(req, res) => {
       email
     })
     console.log("User successfully created: ", response)
-  } catch(error) {
-    if (error.code == 11000){
-      return res.json({status: 'error', error: "Username already exists"})
+  } catch (error) {
+    if (error.code == 11000) {
+      return res.json({ status: 'error', error: "Username already exists" })
     }
     console.log(JSON.stringify(error))
-    return res.json({status: 'error'})
+    return res.json({ status: 'error' })
   }
 
 
-  res.json({status: 'ok'})
+  res.json({ status: 'ok' })
+})
+
+app.get('api/cards/:id', async (req, res) => {
+
+});
+
+app.post('api/card', async (req, res) => {
+  console.log(req.body);
+
+  const { setId, id, front, back } = req.body;
+
+  try {
+    const res = await Card.create({
+      setId,
+      id,
+      front,
+      back
+    });
+    console.log("Card created: ", res);
+  } catch (error) {
+    console.log(JSON.stringify(error));
+    return res.json({ status: 'error' });
+  }
+
+  res.json({ status: 'ok' })
 })
 
 app.listen(9999, () => {
