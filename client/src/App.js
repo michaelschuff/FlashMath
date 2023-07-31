@@ -11,7 +11,7 @@ function App () {
     <Router>
       <Routes>
         <Route path='/' id='LoginPage' element={<LoginPage />} />
-        <Route path='/cards' id='EditorPage' element={<EditorPage cardtitles={['Title Card', 'chain rule', 'integral', 'catssss', 'butt soup']} cardtexts={['These are my Flash Cards\n By FlashMath inc B)', 'd/dx f(g(x))=f\'(g(x))g\'(x)', 'int_a^b f(x) dx= F(a)-F(b)', '}:>', '~D']} />} />
+        <Route path='/cards' id='EditorPage' element={<EditorPage cardtitles={['Title Card', 'chain rule', 'integral', 'catssss', 'butt soup']} cardtexts={['These are my Flash Cards\n By FlashMath inc B)', 'd/dx f(g(x))=f\'(g(x))g\'(x)', 'int_a^b f(x) dx= F(a)-F(b)', '}:>', '~D']} backcardtexts={['back1', 'back2', 'back3', 'back4', 'back5', 'back6']}/>} />
       </Routes>
     </Router>
   )
