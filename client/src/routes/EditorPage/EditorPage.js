@@ -5,30 +5,64 @@ import { SearchBar } from './SearchBar.jsx'
 import { Menu } from '../SiteItems/Menu.jsx'
 import { Cards } from './Cards.jsx'
 import { CardNavigation } from './CardNavigation.jsx'
+
+
+// import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
+import '../SiteItems/Logo.css'
+import '../SiteItems/Menu.css'
 
-function EditorPage () {
-  const [leftData, setLeftData] = useState('left card')
-  const [rightData, setRightData] = useState('right card')
-  const [midData, setMidData] = useState('mid card')
+function EditorPage ({ cardtitles, cardtexts }) {
+  const [lTitle, setLTitle] = useState('')
+  const [mTitle, setMTitle] = useState('')
+  const [rTitle, setRTitle] = useState('')
+  const [lText, setLText] = useState('')
+  const [mText, setMText] = useState('')
+  const [rText, setRText] = useState('')
+  const [index, setIndex] = useState(0)
 
-  // add parameter, new_data later and replace the string
-  const handleShiftCardLeft = () => {
-    setLeftData(midData)
-    setMidData(rightData)
-    setRightData('new_data')
+  const updateCardData = () => {
+    console.log('length: [0,' + cardtexts.length + ']')
+    console.log('index: ' + index)
+    if (index > 0) {
+      setLText(cardtexts[index - 1])
+      setLTitle(cardtitles[index - 1])
+    } else {
+      setLText('')
+      setLTitle('')
+    }
+    setMText(cardtexts[index])
+    setMTitle(cardtitles[index])
+    if (index < cardtexts.length - 1) {
+      setRText(cardtexts[index + 1])
+      setRTitle(cardtitles[index + 1])
+    } else {
+      setRText('')
+      setRTitle('')
+    }
   }
 
-  const handleShiftCardRight = () => {
-    setRightData(midData)
-    setMidData(leftData)
-    setLeftData('new data')
+  const shiftCardLeft = () => {
+    console.log('index: ' + index)
+    console.log('ShiftCardLeft')
+    if (index > 0) {
+      setIndex(index - 1)
+    }
+    updateCardData()
   }
 
-  const handleShuffleSet = () => {
-    setRightData('right card')
-    setMidData('mid card')
-    setLeftData('left card')
+  const shiftCardRight = () => {
+    console.log('index: ' + index)
+    console.log('ShiftCardRight')
+    if (index < cardtexts.length - 1) {
+      setIndex(index + 1)
+    }
+    updateCardData()
+  }
+
+  const shuffleSet = () => {
+    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
+    updateCardData()
   }
 
   return (
@@ -39,8 +73,8 @@ function EditorPage () {
         <Menu />
       </div>
       <div class='cardview'>
-        <Cards leftData={leftData} midData={midData} rightData={rightData} />
-        <CardNavigation shiftCardLeft={handleShiftCardLeft} shiftCardRight={handleShiftCardRight} shuffleSet={handleShuffleSet}/>
+        <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} />
+        <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
       <div class='bottom-bar'>
         <ShareButton />

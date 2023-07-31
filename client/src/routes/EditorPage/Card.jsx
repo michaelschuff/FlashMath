@@ -1,10 +1,12 @@
 import React from 'react'
 
-export const Card = () => {
+
+export const Card = ({ initialText, title, type }) => {
   return (
-    <div>
-      <div class='card'>
-        Vocabulary
+    <div class={type}>
+      <text>{title}</text>
+      <div>
+        {initialText}
       </div>
     </div>
   )
