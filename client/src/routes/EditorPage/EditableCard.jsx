@@ -9,13 +9,18 @@ const EditableCard = ({ initialText, title, type }) => {
 
   return (
     <div class={type}>
-      <text>{title}</text>
-      <div
-        ref={editableRef}
-        contentEditable='true'
-        onClick={handleClick}
-      >
-        {initialText}
+      <div class='card-content'>
+        <div class='card-title'>
+          {title}
+        </div>
+        <div
+          class='card-text'
+          ref={editableRef}
+          contentEditable='true'
+          onClick={handleClick}
+        >
+          {initialText}
+        </div>
       </div>
     </div>
   )
