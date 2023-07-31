@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 
 const EditableCard = ({ initialText, title, type }) => {
   const editableRef = useRef(null)
