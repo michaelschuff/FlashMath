@@ -19,6 +19,7 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const [mText, setMText] = useState('')
   const [rText, setRText] = useState('')
   const [index, setIndex] = useState(0)
+  const [currentCardSide, setCurrentForm] = useState('front')
 
   const updateCardData = () => {
     console.log('length: [0,' + cardtexts.length + ']')
@@ -44,6 +45,7 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
       setRTitle('')
     }
   }
+
   useEffect(() => {
     setLText(cardtexts[index - 1] || '')
     setLTitle(cardtitles[index - 1] || '')
@@ -52,6 +54,7 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
     setRText(cardtexts[index + 1] || '')
     setRTitle(cardtitles[index + 1] || '')
   }, [index, cardtitles, cardtexts])
+
   const shiftCardLeft = () => {
     console.log('index: ' + index)
     console.log('ShiftCardLeft')
@@ -70,10 +73,12 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
     updateCardData()
   }
 
-  const [currentCardSide, setCurrentForm] = useState('front')
   const shuffleSet = () => {
-    // setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
-    // updateCardData()
+    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
+    updateCardData()
+  }
+
+  const FlipCard = () => {
     if (currentCardSide === 'front') {
       setCurrentForm('back')
       setMText(backcardtexts[index])
@@ -82,7 +87,6 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
       setMText(cardtexts[index])
     }
   }
-
 
   const toggleCard = (cardName) => {
     setCurrentForm(cardName)
@@ -96,7 +100,7 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
         <Menu />
       </div>
       <div class='cardview'>
-        {currentCardSide === 'front' ? <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} onCardSwitch={toggleCard} /> : <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} onCardSwitch={toggleCard} />}
+        {currentCardSide === 'front' ? <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} /> : <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} />}
         <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
       <div class='bottom-bar'>
