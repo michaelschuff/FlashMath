@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Card } from './Card.jsx'
-import EditableCard from './EditableCard.jsx'
+import { Card } from './Card.js'
+import EditableCard from './EditableCard.js'
 import './EditorPage.css'
 
 export const Cards = (props) => {
