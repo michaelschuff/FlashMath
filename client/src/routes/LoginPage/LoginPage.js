@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 // import logo from './logo.svg';
 import './LoginPage.css'
-import { LoginForm } from './LoginForm.jsx'
-import { RegisterForm } from './RegisterForm.jsx'
+import { LoginForm } from './LoginForm.js'
+import { RegisterForm } from './RegisterForm.js'
 import { Logo } from '../SiteItems/Logo.jsx'
 
 function LoginPage () {

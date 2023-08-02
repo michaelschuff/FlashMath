@@ -19,9 +19,6 @@ export const LoginForm = (props) => {
         <label htmlFor='password'>password</label>
         <input value={pass} type='password' placeholder='********' id='password' name='password' />
         <button className='login-button'>Login</button>
-        {/* <Link to='/cards' className='login-button'>
-          Login
-        </Link> */}
         <Link to='/cards' className='login-button'>
           Continue as Guest
         </Link>
