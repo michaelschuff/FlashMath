@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { ShareButton } from './ShareButton.js'
 import { Logo } from '../../components/Branding/Logo.js'
-import { SearchBar } from './SearchBar.js'
+import { SearchBar } from '../../components/Searchbar/SearchBar.js'
 import { Menu } from '../../components/Menu/Menu.js'
 import { Cards } from './Cards.js'
 import { CardNavigation } from './CardNavigation.js'
