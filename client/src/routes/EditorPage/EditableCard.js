@@ -7,7 +7,6 @@ const EditableCard = ({ initialText, backText, title, type, onCardSwitch }) => {
   const handleClick = () => {
     editableRef.current.focus()
   }
-
   const flipCard = () => {
     setCurrentCardSide(currentCardSide === 'front' ? 'back' : 'front')
   }
