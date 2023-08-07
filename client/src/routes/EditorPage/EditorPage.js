@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { ShareButton } from './ShareButton.jsx'
-import { Logo } from '../SiteItems/Logo.jsx'
-import { SearchBar } from './SearchBar.jsx'
-import { Menu } from '../SiteItems/Menu.jsx'
-import { Cards } from './Cards.jsx'
-import { CardNavigation } from './CardNavigation.jsx'
+import { ShareButton } from './ShareButton.js'
+import { Logo } from '../../components/Branding/Logo.js'
+import { SearchBar } from '../../components/Searchbar/SearchBar.js'
+import { Menu } from '../../components/Menu/Menu.js'
+import { Cards } from './Cards.js'
+import { CardNavigation } from './CardNavigation.js'
 
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
-import '../SiteItems/Logo.css'
-import '../SiteItems/Menu.css'
 
 function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const [lTitle, setLTitle] = useState('')
