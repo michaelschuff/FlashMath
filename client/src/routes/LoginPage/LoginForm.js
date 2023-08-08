@@ -31,6 +31,8 @@ export const LoginForm = (props) => {
       console.log("Got the token: ", result.data)
       navigate('/cards')
     } else{
+      document.getElementById('username').className += 'errorInp'
+      document.getElementById('password').className += 'errorInp'
       alert(result.error)
     }
     ;

@@ -8,6 +8,21 @@
 
 }
 
+.errorInp {
+  border-color: red;
+  border-style: solid;
+  animation-name: wiggle;
+  animation-duration: .75s;
+}
+
+@keyframes wiggle {
+  0% {transform: rotate(1deg);}
+  25% {transform: rotate(-1deg);}
+  50% {transform: rotate(1.5deg);}
+  75% {transform: rotate(-5deg);}
+  100% {transform: rotate(0deg);}
+}
+
 .auth-form-container, .login-form, .register-form {
   display: flex;
   flex-direction: column;
@@ -31,8 +46,9 @@ label {
 input {
   margin: 0.5rem 0;
   padding: 1rem;
-  border: none;
+  border: solid;
   border-radius: 10px;
+  border-color: white;
 }
 
 button {
