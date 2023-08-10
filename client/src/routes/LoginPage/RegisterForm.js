@@ -12,11 +12,11 @@ export const RegisterForm = (props) => {
     console.log(email)
   }
 
-    async function registerUser(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
+  async function registerUser (event) {
+    event.preventDefault()
+    const username = document.getElementById('username').value
+    const email = document.getElementById('email').value
+    const password = document.getElementById('password').value
 
     const result = await fetch('http://localhost:9999/api/register', {
       method: 'POST',
@@ -30,15 +30,13 @@ export const RegisterForm = (props) => {
       })
     }).then((res) => res.json())
 
-    if(result.status === 'ok'){
+    if (result.status === 'ok') {
       navigate('/cards')
-    } else{
+    } else {
       alert(result.error)
     }
     ;
-
   }
-
 
   return (
     <div className='auth-form-container'>

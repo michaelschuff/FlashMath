@@ -11,10 +11,10 @@ export const LoginForm = (props) => {
     console.log(username)
   }
 
-  async function loginUser(event) {
-    event.preventDefault();
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+  async function loginUser (event) {
+    event.preventDefault()
+    const username = document.getElementById('username').value
+    const password = document.getElementById('password').value
 
     const result = await fetch('http://localhost:9999/api/login', {
       method: 'POST',
@@ -27,10 +27,10 @@ export const LoginForm = (props) => {
       })
     }).then((res) => res.json())
 
-    if(result.status === 'ok'){
-      console.log("Got the token: ", result.data)
+    if (result.status === 'ok') {
+      console.log('Got the token: ', result.data)
       navigate('/cards')
-    } else{
+    } else {
       document.getElementById('username').className += 'errorInp'
       document.getElementById('password').className += 'errorInp'
       alert(result.error)
