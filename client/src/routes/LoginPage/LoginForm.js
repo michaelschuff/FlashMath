@@ -31,6 +31,8 @@ export const LoginForm = (props) => {
       console.log("Got the token: ", result.data)
       navigate('/cards')
     } else{
+      document.getElementById('username').className += 'errorInp'
+      document.getElementById('password').className += 'errorInp'
       alert(result.error)
     }
     ;
@@ -49,7 +51,7 @@ export const LoginForm = (props) => {
           Continue as Guest
         </Link>
       </form>
-      <button className='link-btn' onClick={() => props.onFormSwitch('register')}>Don't have an account?</button>
+      <button className='login-button' onClick={() => props.onFormSwitch('register')}>Don't have an account?</button>
     </div>
   )
 }
