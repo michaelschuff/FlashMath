@@ -84,6 +84,19 @@ app.post('/api/register', async (req, res) => {
   res.json({ status: 'ok' })
 })
 
+app.get('/api/user/:id', async (req, res) => {
+  try {
+    const user = await User.findById(userId).select('username email').lean();
+    if (!user) {
+      return res.json({ status: 'error', error: 'User not found' });
+    }
+    res.json({ status: 'ok', data: user });
+  } catch (error) {
+    console.log(error);
+    res.json({status: 'error', error: 'An error occured while fetching user data'})
+  }
+});
+
 app.listen(9999, () => {
-  console.log('Server up at 9999')
-})
+  console.log('Server up at 9999');
+});
