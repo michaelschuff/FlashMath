@@ -72,7 +72,9 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   }
 
   const shuffleSet = () => {
-    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
+    console.log('first' + index)
+    setIndex(Math.floor(Math.random() * (cardtitles.length)))
+    console.log('2nd' + index)
     updateCardData()
   }
 
