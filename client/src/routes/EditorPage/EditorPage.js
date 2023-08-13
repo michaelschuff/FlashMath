@@ -6,7 +6,7 @@ import { Menu } from '../../components/Menu/Menu.js'
 import { Cards } from './Cards.js'
 import { CardNavigation } from './CardNavigation.js'
 
-import { SaveDeckButton } from './SaveDeckButton.js'
+import { ViewDeckButton } from './ViewDeckButton.js'
 import { CreateDeckButton } from './CreateDeckButton.js'
 
 import { AiOutlinePlusSquare } from 'react-icons/ai'
@@ -119,9 +119,9 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
       />
         <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
-        <AiOutlinePlusSquare/>
+      <AiOutlinePlusSquare/>
       <div class='bottom-bar'>
-        <SaveDeckButton />
+        <ViewDeckButton />
         <CreateDeckButton />
       </div>
       <div class='footer'>

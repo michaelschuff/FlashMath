@@ -8,8 +8,7 @@
 
 .logo-img{
     display: flex;
-    height: 10vh;
+    height: 5vw;
     width: 10vh;
-    min-height: 5em;
-    min-width: 5em;
+    filter: brightness(0) invert(1)
 }

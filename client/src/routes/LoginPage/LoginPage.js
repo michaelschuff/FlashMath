@@ -13,9 +13,7 @@ function LoginPage () {
   }
   return (
     <div>
-      <div class='top-bar'>
-        <Logo />
-      </div>
+      <Logo />
       <div className='Login'>
         {
           currentForm === 'login' ? <LoginForm onFormSwitch={toggleForm} /> : <RegisterForm onFormSwitch={toggleForm} />
