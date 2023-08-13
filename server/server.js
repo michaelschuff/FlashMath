@@ -3,6 +3,7 @@ const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
 const User = require('./models/user')
+const Deck = require('./models/deck')
 const bcrypt = require('bcryptjs')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
@@ -19,6 +20,48 @@ const app = express()
 app.use(cors())
 app.use('/', express.static(path.join(__dirname, 'static')))
 app.use(bodyParser.json())
+
+// Authentication middleware
+function authenticateToken(req, res, next) {
+  const token = req.headers['authorization']
+    if (token == null) return res.sendStatus(401);
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
+
+app.get('/api/user/:id', authenticateToken, async (req, res) => {
+  try{
+    const userId = req.user.id;
+    const user = await User.findById(userId).select('username, email').lean();
+    if(!user){
+      return res.json({ status: 'error', error: 'User not found' });
+    }
+    res.json({status: 'ok', data: user});
+  } catch (error) {
+    console.log(error);
+    res.json({ status: 'error', error: 'An error occurred while fetching user data' });
+  }
+
+})
+
+app.get('/api/user/:id/decks', authenticateToken, async (req, res) => {
+  try{
+    const userId = req.user.id;
+    const user = await User.findById(userId).select('username, email').lean();
+    if(!user){
+      return res.json({ status: 'error', error: 'User not found' });
+    }
+    res.json({status: 'ok', data: decks});
+  } catch (error) {
+    console.log(error);
+    res.json({ status: 'error', error: 'An error occurred while fetching user data' });
+  }
+
+})
 
 app.post('/api/login', async (req, res) => {
   console.log(req.body)
@@ -38,10 +81,9 @@ app.post('/api/login', async (req, res) => {
       username: user.username
     },
     JWT_SECRET
-
     )
 
-    return res.json({ status: 'ok', data: '' })
+    return res.json({ status: 'ok', data: token })
   }
 
   res.json({ status: 'error', error: 'Invalid username/password' })
@@ -67,10 +109,17 @@ app.post('/api/register', async (req, res) => {
   password = await bcrypt.hash(plaintextPassword, 3)
 
   try {
+    const newDeck = new Deck({
+      name: 'Default Deck',
+      description: 'A default deck created when a new user is created',
+      flashcards: [],
+    });
+
     const response = await User.create({
       username,
       password,
-      email
+      email,
+      decks: [newDeck._id]
     })
     console.log('User successfully created: ', response)
   } catch (error) {
