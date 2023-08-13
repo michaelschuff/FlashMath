@@ -6,6 +6,12 @@ import { Menu } from '../../components/Menu/Menu.js'
 import { Cards } from './Cards.js'
 import { CardNavigation } from './CardNavigation.js'
 
+import { SaveDeckButton } from './SaveDeckButton.js'
+import { CreateDeckButton } from './CreateDeckButton.js'
+
+import { AiOutlinePlusSquare } from 'react-icons/ai'
+import { AiFillPlusSquare } from 'react-icons/ai'
+
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 
@@ -72,7 +78,9 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   }
 
   const shuffleSet = () => {
-    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
+    console.log('first' + index)
+    setIndex(Math.floor(Math.random() * (cardtitles.length)))
+    console.log('2nd' + index)
     updateCardData()
   }
 
@@ -98,10 +106,25 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
         <Menu />
       </div>
       <div class='cardview'>
-        {currentCardSide === 'front' ? <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} /> : <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} />}
+      <Cards
+        leftText={lText}
+        leftTitle={lTitle}
+        midText={mText}
+        midTitle={mTitle}
+        rightText={rText}
+        rightTitle={rTitle}
+        backcardtexts={backcardtexts[index]}
+        onCardSwitch={toggleCard}
+        currentCardSide={currentCardSide}
+      />
         <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
+        <AiOutlinePlusSquare/>
       <div class='bottom-bar'>
+        <SaveDeckButton />
+        <CreateDeckButton />
+      </div>
+      <div class='footer'>
         <ShareButton />
       </div>
     </div>

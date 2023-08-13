@@ -1,14 +1,11 @@
 import React, { useState, useRef } from 'react'
+import Latex from 'react-latex';
 
-const EditableCard = ({ initialText, backText, title, type, onCardSwitch }) => {
+const EditableCard = ({ initialText, backText, title, type, onCardSwitch, currentCardSide }) => {
   const editableRef = useRef(null)
-  const [currentCardSide, setCurrentCardSide] = useState('front')
 
   const handleClick = () => {
     editableRef.current.focus()
-  }
-  const flipCard = () => {
-    setCurrentCardSide(currentCardSide === 'front' ? 'back' : 'front')
   }
 
   return (
@@ -23,16 +20,14 @@ const EditableCard = ({ initialText, backText, title, type, onCardSwitch }) => {
           contentEditable='true'
           onClick={handleClick}
         >
-          {currentCardSide === 'front' ? initialText : backText}
+          {currentCardSide === 'front' ? (
+            <Latex>{initialText}</Latex>
+          ) : (
+            <Latex>{backText}</Latex>
+          )}
         </div>
         {type === 'card-mid' && (
-          <div
-            className='flip-button'
-            onClick={() => {
-              flipCard();
-              onCardSwitch('card-mid');
-            }}
-          >
+          <div className='flip-button' onClick={() => onCardSwitch(currentCardSide === 'front' ? 'back' : 'front')}>
             Flip
           </div>
         )}
