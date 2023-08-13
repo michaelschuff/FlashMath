@@ -1,113 +1,90 @@
-import React, { useState, useEffect } from 'react'
-import { ShareButton } from './ShareButton.js'
-import { Logo } from '../../components/Branding/Logo.js'
-import { SearchBar } from '../../components/Searchbar/SearchBar.js'
-import { Menu } from '../../components/Menu/Menu.js'
-import { Cards } from './Cards.js'
-import { CardNavigation } from './CardNavigation.js'
-import {AiOutlinePlusSquare} from 'react-icons/ai'
-import {AiFillPlusSquare} from 'react-icons/ai'
+import React, { useState, useEffect } from 'react';
+import { ShareButton } from './ShareButton.js';
+import { Logo } from '../../components/Branding/Logo.js';
+import { SearchBar } from '../../components/Searchbar/SearchBar.js';
+import { Menu } from '../../components/Menu/Menu.js';
+import { Cards } from './Cards.js';
+import { CardNavigation } from './CardNavigation.js';
+import { AiOutlinePlusSquare } from 'react-icons/ai';
+import { AiFillPlusSquare } from 'react-icons/ai';
+// import jwt_decode from 'jwt-decode' // Import the jsonwebtoken library
+
 // import { EditableText } from './EditCard.jsx'
-import './EditorPage.css'
+import './EditorPage.css';
 
-function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
-  const [lTitle, setLTitle] = useState('')
-  const [mTitle, setMTitle] = useState('')
-  const [rTitle, setRTitle] = useState('')
-  const [lText, setLText] = useState('')
-  const [mText, setMText] = useState('')
-  const [rText, setRText] = useState('')
-  const [index, setIndex] = useState(0)
-  const [currentCardSide, setCurrentForm] = useState('front')
+function EditorPage({ userDeck }) {
+  const jwtToken = localStorage.getItem('jwtToken');
 
-  const updateCardData = () => {
-    console.log('length: [0,' + cardtexts.length + ']')
-    console.log('index: ' + index)
-    if (index > 0) {
-      setLText(cardtexts[index - 1])
-      setLTitle(cardtitles[index - 1])
-    } else {
-      setLText('')
-      setLTitle('')
+  const [deck, setDeck] = useState(userDeck);
+  const [index, setIndex] = useState(0);
+
+  const [lTitle, setLTitle] = useState('');
+  const [mTitle, setMTitle] = useState('');
+  const [rTitle, setRTitle] = useState('');
+  const [lText, setLText] = useState('');
+  const [mText, setMText] = useState('');
+  const [rText, setRText] = useState('');
+  const [currentCardSide, setCurrentForm] = useState('front');
+
+  // fetch on mount
+  useEffect(()=>{
+    if(jwtToken){
+      fetchDecks();
     }
-    if (currentCardSide === 'front') {
-      setMText(cardtexts[index])
-    } else {
-      setMText(backcardtexts[index])
-    }
-    setMTitle(cardtitles[index])
-    if (index < cardtexts.length - 1) {
-      setRText(cardtexts[index + 1])
-      setRTitle(cardtitles[index + 1])
-    } else {
-      setRText('')
-      setRTitle('')
-    }
-  }
+  }, []);
 
-  useEffect(() => {
-    setLText(cardtexts[index - 1] || '')
-    setLTitle(cardtitles[index - 1] || '')
-    setMText(cardtexts[index])
-    setMTitle(cardtitles[index])
-    setRText(cardtexts[index + 1] || '')
-    setRTitle(cardtitles[index + 1] || '')
-  }, [index, cardtitles, cardtexts])
+  // Fetching decks via JWT
+  async function fetchDecks(){
+    try{
+      const response = await fetch('http://localhost:9999/api/user/decks', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ${jwtToken}',
+        },
+      });
+      const result = await response.json();
 
-  const shiftCardLeft = () => {
-    console.log('index: ' + index)
-    console.log('ShiftCardLeft')
-    if (index > 0) {
-      setIndex(index - 1)
-    }
-    updateCardData()
-  }
-
-  const shiftCardRight = () => {
-    console.log('index: ' + index)
-    console.log('ShiftCardRight')
-    if (index < cardtexts.length - 1) {
-      setIndex(index + 1)
-    }
-    updateCardData()
-  }
-
-  const shuffleSet = () => {
-    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
-    updateCardData()
-  }
-
-  const FlipCard = () => {
-    if (currentCardSide === 'front') {
-      setCurrentForm('back')
-      setMText(backcardtexts[index])
-    } else {
-      setCurrentForm('front')
-      setMText(cardtexts[index])
+      if(result.status === 'ok'){
+        setDeck(result.data);
+      }
+    } catch(error){
+      console.log('Error fetching decks', error)
     }
   }
 
-  const toggleCard = (cardName) => {
-    setCurrentForm(cardName)
+  let decodedToken = null;
+  if (jwtToken) {
+    const payload = jwtToken.split('.')[1];
+    decodedToken = JSON.parse(atob(payload)); // Decoding base64 payload
   }
 
+// {JSON.stringify(decodedToken, null, 2)}
+// FORMAT TOKEN PLEASE
   return (
-    <div class='editor-page'>
-      <div class='top-bar'>
+    <div className='editor-page'>
+      <div>
+        {/* Display decoded token data */}
+        {decodedToken && (
+          <div>
+            {decodedToken.username}
+          </div>
+        )}
+      </div>
+      <div className='top-bar'>
         <Logo />
         <SearchBar />
         <Menu />
       </div>
-      <div class='cardview'>
-        {currentCardSide === 'front' ? <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} /> : <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} />}
-        <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
+      <div className='cardview'>
+        {mTitle}
       </div>
-      <AiOutlinePlusSquare/>
-      <div class='bottom-bar'>
+      <AiOutlinePlusSquare />
+      <div className='bottom-bar'>
         <ShareButton />
       </div>
     </div>
-  )
+  );
 }
 
-export default EditorPage
+export default EditorPage;
