@@ -5,8 +5,8 @@ import { SearchBar } from '../../components/Searchbar/SearchBar.js'
 import { Menu } from '../../components/Menu/Menu.js'
 import { Cards } from './Cards.js'
 import { CardNavigation } from './CardNavigation.js'
-import {AiOutlinePlusSquare} from 'react-icons/ai'
-import {AiFillPlusSquare} from 'react-icons/ai'
+import { AiOutlinePlusSquare } from 'react-icons/ai'
+import { AiFillPlusSquare } from 'react-icons/ai'
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 
@@ -73,7 +73,9 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   }
 
   const shuffleSet = () => {
-    setIndex(Math.floor(Math.random() * (cardtitles.length - 1)))
+    console.log('first' + index)
+    setIndex(Math.floor(Math.random() * (cardtitles.length)))
+    console.log('2nd' + index)
     updateCardData()
   }
 
