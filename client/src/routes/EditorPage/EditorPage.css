@@ -214,6 +214,36 @@ padding-top: 5%;
 }
 
 .bottom-bar{
+  display: flex;
+  flex-direction: row;
+  padding-top: 1vh;
+  min-height: 5vh;
+  justify-content: center;
+}
+
+.view-deck-button{
+  display:flex;
+  background-color: white;
+  color: black;
+  width: 10rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin: 2vh;
+}
+
+.create-deck-button{
+  display:flex;
+  background-color: white;
+  color: black;
+  width: 10rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  margin: 2vh;
+}
+
+.footer{
   position: absolute;
   bottom: 0;
   display: flex;

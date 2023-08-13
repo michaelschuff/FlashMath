@@ -5,6 +5,8 @@ import { SearchBar } from '../../components/Searchbar/SearchBar.js'
 import { Menu } from '../../components/Menu/Menu.js'
 import { Cards } from './Cards.js'
 import { CardNavigation } from './CardNavigation.js'
+import { ViewDeckButton } from './ViewDeckButton.js'
+import { CreateDeckButton } from './CreateDeckButton.js'
 
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
@@ -102,6 +104,10 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
         <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
       <div class='bottom-bar'>
+        <ViewDeckButton />
+        <CreateDeckButton />
+      </div>
+      <div class='footer'>
         <ShareButton />
       </div>
     </div>
