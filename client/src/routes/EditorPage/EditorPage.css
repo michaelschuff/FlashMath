@@ -221,7 +221,7 @@ padding-top: 5%;
   justify-content: center;
 }
 
-.view-deck-button{
+.save-deck-button{
   display:flex;
   background-color: white;
   color: black;
@@ -273,7 +273,7 @@ padding-top: 5%;
   width: 4rem;
   height: 4rem;
   padding: 0;
-  background-color: #F5F5DC;
+  background-color: transparent;
 }
 
 .share-icon{
