@@ -29,8 +29,8 @@ const EditableCard = ({ initialText, backText, title, type, onCardSwitch }) => {
           <div
             className='flip-button'
             onClick={() => {
-              flipCard();
-              onCardSwitch('card-mid');
+              flipCard()
+              onCardSwitch('card-mid')
             }}
           >
             Flip
