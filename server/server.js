@@ -2,8 +2,11 @@ const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose')
+
 const User = require('./models/user')
 const Deck = require('./models/deck')
+const FlashCard = require('./models/flashcard')
+
 const bcrypt = require('bcryptjs')
 const cors = require('cors')
 const jwt = require('jsonwebtoken')
@@ -63,28 +66,69 @@ app.get('/api/user/:id', authenticateToken, async (req, res) => {
 
 // })
 
+app.get('/api/user/:userId/decks/:deckId/flashcards', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const deckId = req.params.deckId;
+
+    // Check if the deck belongs to the current user
+    const deck = await Deck.findOne({ _id: deckId, createdBy: userId });
+    if (!deck) {
+      return res.json({ status: 'error', error: 'Deck not found or does not belong to the user' });
+    }
+
+    // Populate the flashcards array with the actual flashcard details
+    await deck.populate('flashcards').execPopulate();
+
+    res.json({ status: 'ok', data: deck.flashcards });
+  } catch (error) {
+    console.log('Error fetching flashcards:', error);
+    res.json({ status: 'error', error: 'An error occurred while fetching flashcards' });
+  }
+});
+
+app.post('/api/user/:userId/decks/:deckId/cards', authenticateToken, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const deckId = req.params.deckId;
+    const { front, back } = req.body;
+
+    // Check if the deck belongs to the current user
+    const deck = await Deck.findOne({ _id: deckId, createdBy: userId });
+    if (!deck) {
+      return res.json({ status: 'error', error: 'Deck not found or does not belong to the user' });
+    }
+
+    // Create a new card and add it to the deck's flashcards array
+    const newCard = new FlashCard({ front, back });
+    deck.flashcards.push(newCard);
+    await deck.save();
+    await newCard.save();
+    res.json({ status: 'ok', data: newCard });
+  } catch (error) {
+    console.log('Error adding card:', error);
+    res.json({ status: 'error', error: 'An error occurred while adding the card' });
+  }
+});
+
+
 app.get('/api/user/:id/decks', authenticateToken, async (req, res) => {
   try {
     const userId = req.user.id;
 
     // Fetch user's details
-    const user = await User.findById(userId).select('username email decks').lean();
+    console.log("Fetching decks for user:", userId); // Add this line
+    const decks = await Deck.find({ createdBy: userId }).populate('flashcards').lean();
 
-    if (!user) {
-      return res.json({ status: 'error', error: 'User not found' });
-    }
+    console.log("Fetched decks:", decks); // Add this line
 
-    // Fetch user's decks using the references
-    const deckIds = user.decks || []; // Ensure that deckIds is an array
-    const decks = await DeckModel.find({ _id: { $in: deckIds } }).populate('flashcards').lean();
-
-    res.json({ status: 'ok', data: { user, decks } });
-
+    res.json({ status: 'ok', data: { decks } });
   } catch (error) {
-    console.log(error);
-    res.json({ status: 'error', error: 'An error occurred while fetching user data' });
+    console.log('Error fetching decks:', error); // Add this line
+    res.json({ status: 'error', error: 'An error occurred while fetching deck data' });
   }
 });
+
 
 
 app.post('/api/login', async (req, res) => {

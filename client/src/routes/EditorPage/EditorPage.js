@@ -7,43 +7,62 @@ import { Cards } from './Cards.js';
 import { CardNavigation } from './CardNavigation.js';
 import { AiOutlinePlusSquare } from 'react-icons/ai';
 import { AiFillPlusSquare } from 'react-icons/ai';
-// import jwt_decode from 'jwt-decode' // Import the jsonwebtoken library
+import {Card} from './Card.js'
 
-// import { EditableText } from './EditCard.jsx'
 import './EditorPage.css';
 
 function EditorPage({ userDeck }) {
   const jwtToken = localStorage.getItem('jwtToken');
 
-  const [deck, setDeck] = useState(userDeck);
+  const [deck, setDeck] = useState([]);
   const [index, setIndex] = useState(0);
+  const [cardIndex, setCardIndex] = useState(0);
 
-  const [lTitle, setLTitle] = useState('');
-  const [mTitle, setMTitle] = useState('');
-  const [rTitle, setRTitle] = useState('');
-  const [lText, setLText] = useState('');
-  const [mText, setMText] = useState('');
-  const [rText, setRText] = useState('');
-  const [currentCardSide, setCurrentForm] = useState('front');
+  const [newCardFront, setNewCardFront] = useState('');
+  const [newCardBack, setNewCardBack] = useState('');
 
-  // fetch on mount
+  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+
+  // Fetch decks via JWT
   useEffect(() => {
     if (jwtToken) {
       fetchDecks();
     }
   }, []);
 
-  // Fetching decks via JWT
-  async function fetchDecks() {
-
-    let decodedToken = null;
-    if (jwtToken) {
-      const payload = jwtToken.split('.')[1];
-      decodedToken = JSON.parse(atob(payload)); // Decoding base64 payload
-    }
+  async function handleAddCard(e) {
+    e.preventDefault();
 
     try {
-      console.log(decodedToken.id)
+      const response = await fetch(`http://localhost:9999/api/user/${decodedToken.id}/decks/${deck[index]._id}/cards`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `${jwtToken}`,
+        },
+        body: JSON.stringify({
+          front: newCardFront,
+          back: newCardBack,
+        }),
+      });
+      const result = await response.json();
+
+      if (result.status === 'ok') {
+        // Refresh the deck to see the updated cards
+        fetchDecks();
+        setNewCardFront('');
+        setNewCardBack('');
+      } else {
+        console.log('Error adding card', result.error);
+      }
+    } catch (error) {
+      console.log('Error adding card', error);
+    }
+  }
+
+  // Fetching decks via JWT
+  async function fetchDecks() {
+    try {
       const response = await fetch(`http://localhost:9999/api/user/${decodedToken.id}/decks`, {
         method: 'GET',
         headers: {
@@ -52,13 +71,15 @@ function EditorPage({ userDeck }) {
         },
       });
       const result = await response.json();
-      console.log(result);
+      console.log('Fetched data:', result); // Log the fetched data
 
       if (result.status === 'ok') {
-        setDeck(result.data);
+        setDeck(result.data.decks); // Set the decks array
+        setIsLoading(false);
       }
     } catch (error) {
-      console.log('Error fetching decks', error)
+      console.log('Error fetching decks', error);
+      setIsLoading(true);
     }
   }
 
@@ -68,8 +89,29 @@ function EditorPage({ userDeck }) {
     decodedToken = JSON.parse(atob(payload)); // Decoding base64 payload
   }
 
-  // {JSON.stringify(decodedToken, null, 2)}
-  // FORMAT TOKEN PLEASE
+  const handleShiftCardLeft = () => {
+    if (cardIndex > 0) {
+      setCardIndex(cardIndex - 1);
+    }
+    console.log(cardIndex);
+  };
+
+  const handleShiftCardRight = () => {
+    if (cardIndex < deck[index].flashcards.length - 1) {
+      setCardIndex(cardIndex + 1);
+    }
+    console.log(cardIndex);
+  };
+
+  const handleShuffleSet = () => {
+    const shuffledFlashcards = deck[index].flashcards.slice().sort(() => Math.random() - 0.5);
+    // Update the cardIndex to stay within the bounds of the shuffled flashcards
+    const newIndex = Math.min(cardIndex, shuffledFlashcards.length - 1);
+    const randomIndex = Math.floor(Math.random() * deck[index].flashcards.length);
+    setCardIndex(randomIndex);
+    console.log(cardIndex);
+  };
+
   return (
     <div className='editor-page'>
       <div>
@@ -85,10 +127,47 @@ function EditorPage({ userDeck }) {
         <SearchBar />
         <Menu />
       </div>
+
       <div className='cardview'>
-        {mTitle}
+      {isLoading ? (
+        <div>Loading...</div>
+      ) : (
+
+
+
+
+        <div>
+          <Card class='card' type='card-mid' title={deck[index].flashcards[cardIndex].front} backText = {deck[index].flashcards[cardIndex].back}/>
+        </div>
+      )}
+              <CardNavigation
+                handleShiftCardLeft={handleShiftCardLeft}
+                handleShuffleSet={handleShuffleSet}
+                handleShiftCardRight={handleShiftCardRight}
+              />
       </div>
-      <AiOutlinePlusSquare />
+
+      <h3>Add New Card:</h3>
+      <form onSubmit={handleAddCard}>
+        <label>
+          Front:
+          <input
+            type="text"
+            value={newCardFront}
+            onChange={(e) => setNewCardFront(e.target.value)}
+          />
+        </label>
+        <label>
+          Back:
+          <input
+            type="text"
+            value={newCardBack}
+            onChange={(e) => setNewCardBack(e.target.value)}
+          />
+        </label>
+        <button type="submit">Add Card</button>
+      </form>
+
       <div className='bottom-bar'>
         <ShareButton />
       </div>
