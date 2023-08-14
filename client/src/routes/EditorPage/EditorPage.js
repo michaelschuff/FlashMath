@@ -18,7 +18,7 @@ import {Card} from './Card.js'
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 
-function EditorPage({ userDeck }) {
+// function EditorPage({ userDeck }) {
 function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const jwtToken = localStorage.getItem('jwtToken');
   
