@@ -18,7 +18,6 @@ import {Card} from './Card.js'
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 
-// function EditorPage({ userDeck }) {
 function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const jwtToken = localStorage.getItem('jwtToken');
   
@@ -149,6 +148,7 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
       setCardIndex(cardIndex + 1);
     }
     console.log(cardIndex);
+    console.log(deck[index].flashcards[cardIndex].front)
   };
 
   const handleShuffleSet = () => {
