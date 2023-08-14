@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
 const FlashCardSchema = new mongoose.Schema({
-    question: { type: String, required: true },
-    answer: { type: String, required: true },
+    front: { type: String, required: true },
+    back: { type: String, required: true },
 }, {
     timestamps: true,
     collection: 'flashcards'
