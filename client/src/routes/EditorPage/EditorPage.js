@@ -1,22 +1,63 @@
-import React, { useState, useEffect } from 'react';
-import { ShareButton } from './ShareButton.js';
-import { Logo } from '../../components/Branding/Logo.js';
-import { SearchBar } from '../../components/Searchbar/SearchBar.js';
-import { Menu } from '../../components/Menu/Menu.js';
-import { Cards } from './Cards.js';
-import { CardNavigation } from './CardNavigation.js';
+import React, { useState, useEffect } from 'react'
+import { ShareButton } from './ShareButton.js'
+import { Logo } from '../../components/Branding/Logo.js'
+import { SearchBar } from '../../components/Searchbar/SearchBar.js'
+import { Menu } from '../../components/Menu/Menu.js'
+import { Cards } from './Cards.js'
+import { CardNavigation } from './CardNavigation.js'
+
+import { SaveDeckButton } from './SaveDeckButton.js'
+import { CreateDeckButton } from './CreateDeckButton.js'
+  
+
+
 import { AiOutlinePlusSquare } from 'react-icons/ai';
 import { AiFillPlusSquare } from 'react-icons/ai';
 import {Card} from './Card.js'
 
-import './EditorPage.css';
+// import { EditableText } from './EditCard.jsx'
+import './EditorPage.css'
 
 function EditorPage({ userDeck }) {
+function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const jwtToken = localStorage.getItem('jwtToken');
-
+  
+  
+  const [lTitle, setLTitle] = useState('')
+  const [mTitle, setMTitle] = useState('')
+  const [rTitle, setRTitle] = useState('')
+  const [lText, setLText] = useState('')
+  const [mText, setMText] = useState('')
+  const [rText, setRText] = useState('')
+  const [index, setIndex] = useState(0)
+  const [currentCardSide, setCurrentForm] = useState('front')
   const [deck, setDeck] = useState([]);
-  const [index, setIndex] = useState(0);
   const [cardIndex, setCardIndex] = useState(0);
+
+  const updateCardData = () => {
+    console.log('length: [0,' + cardtexts.length + ']')
+    console.log('index: ' + index)
+    if (index > 0) {
+      setLText(cardtexts[index - 1])
+      setLTitle(cardtitles[index - 1])
+    } else {
+      setLText('')
+      setLTitle('')
+    }
+    if (currentCardSide === 'front') {
+      setMText(cardtexts[index])
+    } else {
+      setMText(backcardtexts[index])
+    }
+    setMTitle(cardtitles[index])
+    if (index < cardtexts.length - 1) {
+      setRText(cardtexts[index + 1])
+      setRTitle(cardtitles[index + 1])
+    } else {
+      setRText('')
+      setRTitle('')
+    }
+  }
 
   const [newCardFront, setNewCardFront] = useState('');
   const [newCardBack, setNewCardBack] = useState('');
@@ -72,6 +113,13 @@ function EditorPage({ userDeck }) {
       });
       const result = await response.json();
       console.log('Fetched data:', result); // Log the fetched data
+
+  const shuffleSet = () => {
+    console.log('first' + index)
+    setIndex(Math.floor(Math.random() * (cardtitles.length)))
+    console.log('2nd' + index)
+    updateCardData()
+  }
 
       if (result.status === 'ok') {
         setDeck(result.data.decks); // Set the decks array
@@ -132,10 +180,6 @@ function EditorPage({ userDeck }) {
       {isLoading ? (
         <div>Loading...</div>
       ) : (
-
-
-
-
         <div>
           <Card class='card' type='card-mid' title={deck[index].flashcards[cardIndex].front} backText = {deck[index].flashcards[cardIndex].back}/>
         </div>
