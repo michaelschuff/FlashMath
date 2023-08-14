@@ -106,7 +106,17 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
         <Menu />
       </div>
       <div class='cardview'>
-        {currentCardSide === 'front' ? <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} /> : <Cards leftText={lText} leftTitle={lTitle} midText={mText} midTitle={mTitle} rightText={rText} rightTitle={rTitle} backcardtexts={backcardtexts[index]} onCardSwitch={toggleCard} />}
+      <Cards
+        leftText={lText}
+        leftTitle={lTitle}
+        midText={mText}
+        midTitle={mTitle}
+        rightText={rText}
+        rightTitle={rTitle}
+        backcardtexts={backcardtexts[index]}
+        onCardSwitch={toggleCard}
+        currentCardSide={currentCardSide}
+      />
         <CardNavigation handleShiftCardLeft={shiftCardLeft} handleShiftCardRight={shiftCardRight} handleShuffleSet={shuffleSet} />
       </div>
         <AiOutlinePlusSquare/>
