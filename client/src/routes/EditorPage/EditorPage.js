@@ -181,7 +181,7 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
         <div>Loading...</div>
       ) : (
         <div>
-          <Card class='card' type='card-mid' title={deck[index].flashcards[cardIndex].front} backText = {deck[index].flashcards[cardIndex].back}/>
+          <Card className='card' type='card-mid' title={deck[index].flashcards[cardIndex].front} backText = {deck[index].flashcards[cardIndex].back}/>
         </div>
       )}
               <CardNavigation
