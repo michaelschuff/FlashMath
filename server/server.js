@@ -133,17 +133,21 @@ app.post('/api/register', async (req, res) => {
   const password = await bcrypt.hash(plaintextPassword, 3);
 
   try {
+    const newUser = new User({
+      username,
+      password,
+      email,
+    });
 
-    
+    await newUser.save();
+
     const newDeck = new Deck({
       name: 'Default Deck',
       description: 'A default deck created when a new user is created',
       flashcards: [],
-      createdBy: 'default',
+      createdBy: newUser._id,
     });
 
-    // Save the new deck
-    let savedDeck;
     try {
       savedDeck = await newDeck.save();
     } catch (saveError) {
@@ -151,11 +155,7 @@ app.post('/api/register', async (req, res) => {
       return res.json({ status: 'error', error: 'Error saving deck' });
     }
 
-   
-
-    // Update the createdBy field of the saved deck with the user's ObjectId
-    savedDeck.createdBy = newUser._id;
-    await savedDeck.save();
+    // UPDATE the createdBy field of the saved deck with the user's ObjectId
 
     console.log('User successfully created:', newUser);
     console.log('Deck successfully associated:', savedDeck);
