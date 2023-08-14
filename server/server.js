@@ -24,7 +24,7 @@ app.use(bodyParser.json())
 // Authentication middleware
 function authenticateToken(req, res, next) {
   const token = req.headers['authorization']
-    if (token == null) return res.sendStatus(401);
+  if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) return res.sendStatus(403);
@@ -34,34 +34,58 @@ function authenticateToken(req, res, next) {
 }
 
 app.get('/api/user/:id', authenticateToken, async (req, res) => {
-  try{
+  try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select('username, email').lean();
-    if(!user){
+    const user = await User.findById(userId).select('username, email, decks').lean();
+    if (!user) {
       return res.json({ status: 'error', error: 'User not found' });
     }
-    res.json({status: 'ok', data: user});
+    res.json({ status: 'ok', data: user });
   } catch (error) {
     console.log(error);
     res.json({ status: 'error', error: 'An error occurred while fetching user data' });
   }
 
 })
+
+// app.get('/api/user/:id/decks', authenticateToken, async (req, res) => {
+//   try {
+//     const userId = req.user.id;
+//     const user = await User.findById(userId).select('username, email, decks').lean();
+//     if (!user) {
+//       return res.json({ status: 'error', error: 'User not found' });
+//     }
+//     res.json({ status: 'ok', data: decks });
+//   } catch (error) {
+//     console.log(error);
+//     res.json({ status: 'error', error: 'An error occurred while fetching user data' });
+//   }
+
+// })
 
 app.get('/api/user/:id/decks', authenticateToken, async (req, res) => {
-  try{
+  try {
     const userId = req.user.id;
-    const user = await User.findById(userId).select('username, email').lean();
-    if(!user){
+
+    // Fetch user's details
+    const user = await User.findById(userId).select('username email decks').lean();
+
+    if (!user) {
       return res.json({ status: 'error', error: 'User not found' });
     }
-    res.json({status: 'ok', data: decks});
+
+    // Fetch user's decks using the references
+    const deckIds = user.decks || []; // Ensure that deckIds is an array
+    const decks = await DeckModel.find({ _id: { $in: deckIds } }).populate('flashcards').lean();
+
+    res.json({ status: 'ok', data: { user, decks } });
+
   } catch (error) {
     console.log(error);
     res.json({ status: 'error', error: 'An error occurred while fetching user data' });
   }
+});
 
-})
 
 app.post('/api/login', async (req, res) => {
   console.log(req.body)
@@ -80,7 +104,7 @@ app.post('/api/login', async (req, res) => {
       id: user._id,
       username: user.username
     },
-    JWT_SECRET
+      JWT_SECRET
     )
 
     return res.json({ status: 'ok', data: token })
@@ -90,48 +114,62 @@ app.post('/api/login', async (req, res) => {
 })
 
 app.post('/api/register', async (req, res) => {
-  console.log(req.body)
+  console.log(req.body);
 
-  const { username, password: plaintextPassword, email } = req.body
+  const { username, password: plaintextPassword, email } = req.body;
 
   if (!username || typeof username !== 'string') {
-    return res.json({ status: 'error', error: 'Invalid Username' })
+    return res.json({ status: 'error', error: 'Invalid Username' });
   }
 
   if (!plaintextPassword || typeof plaintextPassword !== 'string') {
-    return res.json({ status: 'error', error: 'Invalid Password' })
+    return res.json({ status: 'error', error: 'Invalid Password' });
   }
 
   if (plaintextPassword.length < 5) {
-    return res.json({ status: 'error', error: 'Invalid Password (Must be length greater than 5)' })
+    return res.json({ status: 'error', error: 'Invalid Password (Must be length greater than 5)' });
   }
 
-  password = await bcrypt.hash(plaintextPassword, 3)
+  const password = await bcrypt.hash(plaintextPassword, 3);
 
   try {
+
+    
     const newDeck = new Deck({
       name: 'Default Deck',
       description: 'A default deck created when a new user is created',
       flashcards: [],
+      createdBy: 'default',
     });
 
-    const response = await User.create({
-      username,
-      password,
-      email,
-      decks: [newDeck._id]
-    })
-    console.log('User successfully created: ', response)
-  } catch (error) {
-    if (error.code == 11000) {
-      return res.json({ status: 'error', error: 'Username already exists' })
+    // Save the new deck
+    let savedDeck;
+    try {
+      savedDeck = await newDeck.save();
+    } catch (saveError) {
+      console.error('Error saving deck', saveError);
+      return res.json({ status: 'error', error: 'Error saving deck' });
     }
-    console.log(JSON.stringify(error))
-    return res.json({ status: 'error' })
+
+   
+
+    // Update the createdBy field of the saved deck with the user's ObjectId
+    savedDeck.createdBy = newUser._id;
+    await savedDeck.save();
+
+    console.log('User successfully created:', newUser);
+    console.log('Deck successfully associated:', savedDeck);
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.json({ status: 'error', error: 'Username already exists' });
+    }
+    console.log(JSON.stringify(error));
+    return res.json({ status: 'error' });
   }
 
-  res.json({ status: 'ok' })
-})
+  res.json({ status: 'ok' });
+});
+
 
 app.get('/api/user/:id', async (req, res) => {
   try {
@@ -142,7 +180,7 @@ app.get('/api/user/:id', async (req, res) => {
     res.json({ status: 'ok', data: user });
   } catch (error) {
     console.log(error);
-    res.json({status: 'error', error: 'An error occured while fetching user data'})
+    res.json({ status: 'error', error: 'An error occured while fetching user data' })
   }
 });
 

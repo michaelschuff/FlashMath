@@ -27,28 +27,37 @@ function EditorPage({ userDeck }) {
   const [currentCardSide, setCurrentForm] = useState('front');
 
   // fetch on mount
-  useEffect(()=>{
-    if(jwtToken){
+  useEffect(() => {
+    if (jwtToken) {
       fetchDecks();
     }
   }, []);
 
   // Fetching decks via JWT
-  async function fetchDecks(){
-    try{
-      const response = await fetch('http://localhost:9999/api/user/decks', {
+  async function fetchDecks() {
+
+    let decodedToken = null;
+    if (jwtToken) {
+      const payload = jwtToken.split('.')[1];
+      decodedToken = JSON.parse(atob(payload)); // Decoding base64 payload
+    }
+
+    try {
+      console.log(decodedToken.id)
+      const response = await fetch(`http://localhost:9999/api/user/${decodedToken.id}/decks`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: 'Bearer ${jwtToken}',
+          'Authorization': `${jwtToken}`,
         },
       });
       const result = await response.json();
+      console.log(result);
 
-      if(result.status === 'ok'){
+      if (result.status === 'ok') {
         setDeck(result.data);
       }
-    } catch(error){
+    } catch (error) {
       console.log('Error fetching decks', error)
     }
   }
@@ -59,8 +68,8 @@ function EditorPage({ userDeck }) {
     decodedToken = JSON.parse(atob(payload)); // Decoding base64 payload
   }
 
-// {JSON.stringify(decodedToken, null, 2)}
-// FORMAT TOKEN PLEASE
+  // {JSON.stringify(decodedToken, null, 2)}
+  // FORMAT TOKEN PLEASE
   return (
     <div className='editor-page'>
       <div>
