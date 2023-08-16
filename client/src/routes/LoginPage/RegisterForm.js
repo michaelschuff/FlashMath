@@ -48,9 +48,7 @@ export const RegisterForm = (props) => {
         <input value={email} type='email' placeholder='youremail@gmail.com' id='email' name='email' />
         <label htmlFor='password'>password</label>
         <input value={pass} type='password' placeholder='********' id='password' name='password' />
-        <Link className='login-button' to='/cards'>
-          Register
-        </Link>
+        <button> Register </button>
         <Link className='login-button' to='/cards'>
           Continue as Guest
         </Link>

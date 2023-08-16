@@ -2,8 +2,9 @@
 /* Style the hamburger menu */
 .menu-icon {
     position: absolute;
-    right: 5%;
-    top: 2%;
+    right: .8%;
+    top: 5%;
     width: 5em;
     height: 5em;
+    text-decoration: none;
   }

@@ -1,5 +1,6 @@
 import React from 'react'
 // import EditorPage from './EditorPage'
+import "./EditorPage.css"
 
 export const CardNavigation = ({ handleShiftCardLeft, handleShuffleSet, handleShiftCardRight }) => {
   return (

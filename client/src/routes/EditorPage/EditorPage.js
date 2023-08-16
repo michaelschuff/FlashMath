@@ -8,20 +8,18 @@ import { CardNavigation } from './CardNavigation.js'
 
 import { SaveDeckButton } from './SaveDeckButton.js'
 import { CreateDeckButton } from './CreateDeckButton.js'
-  
 
+import { AiOutlinePlusSquare, AiFillPlusSquare } from 'react-icons/ai'
+import { Card } from './Card.js'
 
-import { AiOutlinePlusSquare } from 'react-icons/ai';
-import { AiFillPlusSquare } from 'react-icons/ai';
-import {Card} from './Card.js'
+import {BsFillMoonFill} from 'react-icons/bs'
 
 // import { EditableText } from './EditCard.jsx'
 import './EditorPage.css'
 
 function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
-  const jwtToken = localStorage.getItem('jwtToken');
-  
-  
+  const jwtToken = localStorage.getItem('jwtToken')
+
   const [lTitle, setLTitle] = useState('')
   const [mTitle, setMTitle] = useState('')
   const [rTitle, setRTitle] = useState('')
@@ -30,8 +28,8 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
   const [rText, setRText] = useState('')
   const [index, setIndex] = useState(0)
   const [currentCardSide, setCurrentForm] = useState('front')
-  const [deck, setDeck] = useState([]);
-  const [cardIndex, setCardIndex] = useState(0);
+  const [deck, setDeck] = useState([])
+  const [cardIndex, setCardIndex] = useState(0)
 
   const updateCardData = () => {
     console.log('length: [0,' + cardtexts.length + ']')
@@ -58,114 +56,114 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
     }
   }
 
-  const [newCardFront, setNewCardFront] = useState('');
-  const [newCardBack, setNewCardBack] = useState('');
+  const [newCardFront, setNewCardFront] = useState('')
+  const [newCardBack, setNewCardBack] = useState('')
 
-  const [isLoading, setIsLoading] = useState(true); // Add a loading state
+  const [isLoading, setIsLoading] = useState(true) // Add a loading state
 
   // Fetch decks via JWT
   useEffect(() => {
     if (jwtToken) {
-      fetchDecks();
+      fetchDecks()
     }
-  }, []);
+  }, [])
 
-  async function handleAddCard(e) {
-    e.preventDefault();
+  async function handleAddCard (e) {
+    e.preventDefault()
 
     try {
       const response = await fetch(`http://localhost:9999/api/user/${decodedToken.id}/decks/${deck[index]._id}/cards`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `${jwtToken}`,
+          Authorization: `${jwtToken}`
         },
         body: JSON.stringify({
           front: newCardFront,
-          back: newCardBack,
-        }),
-      });
-      const result = await response.json();
+          back: newCardBack
+        })
+      })
+      const result = await response.json()
 
       if (result.status === 'ok') {
         // Refresh the deck to see the updated cards
-        fetchDecks();
-        setNewCardFront('');
-        setNewCardBack('');
+        fetchDecks()
+        setNewCardFront('')
+        setNewCardBack('')
       } else {
-        console.log('Error adding card', result.error);
+        console.log('Error adding card', result.error)
       }
     } catch (error) {
-      console.log('Error adding card', error);
+      console.log('Error adding card', error)
     }
   }
 
   // Fetching decks via JWT
-  async function fetchDecks() {
+  async function fetchDecks () {
     try {
       const response = await fetch(`http://localhost:9999/api/user/${decodedToken.id}/decks`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `${jwtToken}`,
-        },
-      });
-      const result = await response.json();
-      console.log('Fetched data:', result); // Log the fetched data
+          Authorization: `${jwtToken}`
+        }
+      })
+      const result = await response.json()
+      console.log('Fetched data:', result) // Log the fetched data
 
-  const shuffleSet = () => {
-    console.log('first' + index)
-    setIndex(Math.floor(Math.random() * (cardtitles.length)))
-    console.log('2nd' + index)
-    updateCardData()
-  }
+      const shuffleSet = () => {
+        console.log('first' + index)
+        setIndex(Math.floor(Math.random() * (cardtitles.length)))
+        console.log('2nd' + index)
+        updateCardData()
+      }
 
       if (result.status === 'ok') {
-        setDeck(result.data.decks); // Set the decks array
-        setIsLoading(false);
+        setDeck(result.data.decks) // Set the decks array
+        setIsLoading(false)
       }
     } catch (error) {
-      console.log('Error fetching decks', error);
-      setIsLoading(true);
+      console.log('Error fetching decks', error)
+      setIsLoading(true)
     }
   }
 
-  let decodedToken = null;
+  let decodedToken = null
   if (jwtToken) {
-    const payload = jwtToken.split('.')[1];
-    decodedToken = JSON.parse(atob(payload)); // Decoding base64 payload
+    const payload = jwtToken.split('.')[1]
+    decodedToken = JSON.parse(atob(payload)) // Decoding base64 payload
   }
 
   const handleShiftCardLeft = () => {
     if (cardIndex > 0) {
-      setCardIndex(cardIndex - 1);
+      setCardIndex(cardIndex - 1)
     }
-    console.log(cardIndex);
-  };
+    console.log(cardIndex)
+  }
 
   const handleShiftCardRight = () => {
     if (cardIndex < deck[index].flashcards.length - 1) {
-      setCardIndex(cardIndex + 1);
+      setCardIndex(cardIndex + 1)
     }
-    console.log(cardIndex);
+    console.log(cardIndex)
     console.log(deck[index].flashcards[cardIndex].front)
-  };
+  }
 
   const handleShuffleSet = () => {
-    const shuffledFlashcards = deck[index].flashcards.slice().sort(() => Math.random() - 0.5);
+    const shuffledFlashcards = deck[index].flashcards.slice().sort(() => Math.random() - 0.5)
     // Update the cardIndex to stay within the bounds of the shuffled flashcards
-    const newIndex = Math.min(cardIndex, shuffledFlashcards.length - 1);
-    const randomIndex = Math.floor(Math.random() * deck[index].flashcards.length);
-    setCardIndex(randomIndex);
-    console.log(cardIndex);
-  };
+    const newIndex = Math.min(cardIndex, shuffledFlashcards.length - 1)
+    const randomIndex = Math.floor(Math.random() * deck[index].flashcards.length)
+    setCardIndex(randomIndex)
+    console.log(cardIndex)
+  }
 
   return (
     <div className='editor-page'>
       <div>
         {/* Display decoded token data */}
         {decodedToken && (
-          <div>
+          <div className = "username">
             {decodedToken.username}
           </div>
         )}
@@ -177,46 +175,54 @@ function EditorPage ({ cardtitles, cardtexts, backcardtexts }) {
       </div>
 
       <div className='cardview'>
-      {isLoading ? (
-        <div>Loading...</div>
-      ) : (
-        <div>
-          <Card className='card' type='card-mid' title={deck[index].flashcards[cardIndex].front} backText = {deck[index].flashcards[cardIndex].back}/>
-        </div>
-      )}
-              <CardNavigation
-                handleShiftCardLeft={handleShiftCardLeft}
-                handleShuffleSet={handleShuffleSet}
-                handleShiftCardRight={handleShiftCardRight}
-              />
+        {isLoading
+          ? (
+            <div>Loading...</div>
+            )
+          : (
+            <div>
+              <Card className='card' type='card-mid' title={deck[index].flashcards[cardIndex].front} backText={deck[index].flashcards[cardIndex].back} />
+            </div>
+            )}
+        <CardNavigation
+          handleShiftCardLeft={handleShiftCardLeft}
+          handleShuffleSet={handleShuffleSet}
+          handleShiftCardRight={handleShiftCardRight}
+        />
       </div>
-
-      <h3>Add New Card:</h3>
+      <div className="newCardDiv">
+      <h3> V V V Add New Cards V V V</h3>
       <form onSubmit={handleAddCard}>
         <label>
           Front:
+          <br></br>
           <input
-            type="text"
+            type='text'
             value={newCardFront}
             onChange={(e) => setNewCardFront(e.target.value)}
           />
         </label>
+        <br></br>
         <label>
           Back:
+          <br></br>
           <input
-            type="text"
+            className="backInp"
+            type='text'
             value={newCardBack}
             onChange={(e) => setNewCardBack(e.target.value)}
           />
         </label>
-        <button type="submit">Add Card</button>
+        <br></br>
+        <button type='submit'>Add Card</button>
       </form>
-
+      </div>
       <div className='bottom-bar'>
         <ShareButton />
+        <BsFillMoonFill />
       </div>
     </div>
-  );
+  )
 }
 
-export default EditorPage;
+export default EditorPage

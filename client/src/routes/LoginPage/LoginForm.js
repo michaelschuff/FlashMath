@@ -1,39 +1,39 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 export const LoginForm = (props) => {
-  const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [pass, setPass] = useState('');
+  const navigate = useNavigate()
+  const [username, setUsername] = useState('')
+  const [pass, setPass] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(username);
-  };
+    e.preventDefault()
+    console.log(username)
+  }
 
-  async function loginUser(event) {
-    event.preventDefault();
+  async function loginUser (event) {
+    event.preventDefault()
     const result = await fetch('http://localhost:9999/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': 'Bearer ${}',
+        Authorization: 'Bearer ${}'
       },
       body: JSON.stringify({
         username,
-        password: pass, // Use the state value for password
-      }),
-    }).then((res) => res.json());
+        password: pass // Use the state value for password
+      })
+    }).then((res) => res.json())
 
     if (result.status === 'ok') {
-      console.log('Got the token: ', result.data);
-      const token = result.data;
-      localStorage.setItem('jwtToken', token);
-      navigate('/cards');
+      console.log('Got the token: ', result.data)
+      const token = result.data
+      localStorage.setItem('jwtToken', token)
+      navigate('/cards')
     } else {
-      document.getElementById('username').classList.add('errorInp'); // Adding class to highlight input
-      document.getElementById('password').classList.add('errorInp');
-      alert(result.error);
+      document.getElementById('username').classList.add('errorInp') // Adding class to highlight input
+      document.getElementById('password').classList.add('errorInp')
+      alert(result.error)
     }
   }
 
@@ -68,5 +68,5 @@ export const LoginForm = (props) => {
         Don't have an account?
       </button>
     </div>
-  );
-};
+  )
+}

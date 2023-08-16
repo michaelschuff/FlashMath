@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react'
-import Latex from 'react-latex';
+import Latex from 'react-latex'
 
 const EditableCard = ({ initialText, backText, title, type, onCardSwitch, currentCardSide }) => {
   const editableRef = useRef(null)
@@ -20,11 +20,13 @@ const EditableCard = ({ initialText, backText, title, type, onCardSwitch, curren
           contentEditable='true'
           onClick={handleClick}
         >
-          {currentCardSide === 'front' ? (
-            <Latex>{initialText}</Latex>
-          ) : (
-            <Latex>{backText}</Latex>
-          )}
+          {currentCardSide === 'front'
+            ? (
+              <Latex>{initialText}</Latex>
+              )
+            : (
+              <Latex>{backText}</Latex>
+              )}
         </div>
         {type === 'card-mid' && (
           <div className='flip-button' onClick={() => onCardSwitch(currentCardSide === 'front' ? 'back' : 'front')}>
